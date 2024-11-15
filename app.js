@@ -7,7 +7,7 @@ const Mydata = require("./models/mydataSchema");
 app.set("view engine", "ejs");
 app.use(express.static('public'))
 
-
+//index
 app.get("/", (req, res) => {
   //pour lin
   // res.send('<h1> hellook word kh </h1>')
@@ -19,15 +19,28 @@ app.get("/", (req, res) => {
   Mydata.find()
     .then((result) => {console.log(result);
         //data basse
-      res.render("Home", { mynam: result.at(-1).userNameee });
+      res.render("index");
 
     })
     .catch((err) => {console.log(err);
     });
 });
 
-app.get("/index.html", (req, res) => {
-  res.send("<h1> تم إرسال البيانات بشكل صحيح</h1>");
+//add file
+app.get("/user/add.html", (req, res) => {
+  res.render("user/add");
+});
+//edit
+app.get("/user/Edit.html", (req, res) => {
+  res.render("user/Edit");
+});
+//search file
+app.get("/user/search.ejs", (req, res) => {
+  res.render("user/search");
+});
+//view
+app.get("/user/view.html", (req, res) => {
+  res.render("user/view");
 });
 
 mongoose
