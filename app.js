@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
-const Mydata = require("./models/mydataSchema");
+const User = require("./models/customerSchema");
 app.set("view engine", "ejs");
 app.use(express.static('public'))
 
@@ -26,6 +26,8 @@ app.get("/", (req, res) => {
     });
 });
 
+//get req
+
 //add file
 app.get("/user/add.html", (req, res) => {
   res.render("user/add");
@@ -42,6 +44,24 @@ app.get("/user/search.ejs", (req, res) => {
 app.get("/user/view.html", (req, res) => {
   res.render("user/view");
 });
+//post req
+
+//add file
+app.post("/user/add.html", (req, res) => {
+  console.log(req.body);
+  const article = new User(req.body);
+
+  article
+    .save()
+    .then( result => {
+      res.redirect("/user/add.html");
+    })
+    .catch( err => {
+      console.log(err);
+    });
+});
+
+
 
 mongoose
   .connect(
@@ -60,7 +80,7 @@ mongoose
 app.post("/", (req, res) => {
   console.log(req.body);
 
-  const Dataobject = new Mydata(req.body);
+  const Dataobject = new User(req.body);
   Dataobject.save()
     .then(() => {
       res.redirect("/index.html");
