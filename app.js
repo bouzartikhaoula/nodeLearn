@@ -5,28 +5,24 @@ const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
 const User = require("./models/customerSchema");
 app.set("view engine", "ejs");
-app.use(express.static('public'))
+app.use(express.static("public"));
+
+//get req
 
 //index
 app.get("/", (req, res) => {
-  //pour lin
-  // res.send('<h1> hellook word kh </h1>')
-  //pour un fille
-  // res.sendFile("./views/Home.html", { root: __dirname });
+  //using ejs hada yjib ma3lomat men bdd
 
-  //using ejs
-
-  Mydata.find()
-    .then((result) => {console.log(result);
-        //data basse
-      res.render("index");
-
+  User.find()
+    .then((result) => {
+      console.log(result);
+      //data basse
+      res.render("index",{arry:result});
     })
-    .catch((err) => {console.log(err);
+    .catch((err) => {
+      console.log(err);
     });
 });
-
-//get req
 
 //add file
 app.get("/user/add.html", (req, res) => {
@@ -37,7 +33,7 @@ app.get("/user/Edit.html", (req, res) => {
   res.render("user/Edit");
 });
 //search file
-app.get("/user/search.ejs", (req, res) => {
+app.get("/user/search.html", (req, res) => {
   res.render("user/search");
 });
 //view
@@ -53,15 +49,13 @@ app.post("/user/add.html", (req, res) => {
 
   article
     .save()
-    .then( result => {
+    .then((result) => {
       res.redirect("/user/add.html");
     })
-    .catch( err => {
+    .catch((err) => {
       console.log(err);
     });
 });
-
-
 
 mongoose
   .connect(
@@ -95,12 +89,11 @@ app.post("/", (req, res) => {
 const path = require("path");
 const livereload = require("livereload");
 const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, 'public'));
- 
- 
+liveReloadServer.watch(path.join(__dirname, "public"));
+
 const connectLivereload = require("connect-livereload");
 app.use(connectLivereload());
- 
+
 liveReloadServer.server.once("connection", () => {
   setTimeout(() => {
     liveReloadServer.refresh("/");
